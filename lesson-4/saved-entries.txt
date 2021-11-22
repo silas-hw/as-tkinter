@@ -1,0 +1,4 @@
+{"name": "Silas", "age": "16", "gender": "non-binary", "hobby1": "Skateboarding", "hobby2": "Music"}
+{"name": "Odin", "age": 666, "gender": "other", "hobby1": "Skateboarding", "hobby2": "Music"}
+{"name": "Satan", "age": 666, "gender": "other", "hobby1": "Skateboarding", "hobby2": "Music"}
+{"name": "ajsdfkh", "age": 23, "gender": "non-binary", "hobby1": "Skateboarding", "hobby2": "Music"}
