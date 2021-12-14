@@ -7,6 +7,8 @@ class Window(tk.Frame):
     '''
         A superclass to create windows from. Includes a change window function to change the content of the root window 
     '''
+
+    #constants that are used in every window
     FILE_PATH = os.path.dirname(os.path.realpath(__file__)) # gets the directory of the python file, so file operations can be done regardless of the current working directory
 
     TITLE_FONT = ("Arial", 30, "bold")
@@ -150,11 +152,59 @@ class BookManage(Window):
         self.title.grid(row=0, column=0, columnspan=2)
 
         self.back_butt = ttk.Button(self.root, text="go back", command=lambda: self.change_window(MainApp))
-        self.back_butt.grid(row=1, column=0, padx=self.PADX)
+        self.back_butt.grid(row=1, column=0, padx=self.PADX, sticky=tk.NW)
 
-        self.combo_name = ttk.Combobox(self.root, values=[key for key in self.books.keys()])
+        self.combo_var = tk.StringVar()
+        self.combo_var.trace('w', self.on_combo_change) # call function when value of combobox changes
+
+        self.combo_name = ttk.Combobox(self.root, values=[key for key in self.books.keys()], textvariable=self.combo_var)
         self.combo_name.grid(row=2, column=1, pady=self.PADY_ENTRY)  
 
+        self.book_info = tk.Frame(self.root)
+        self.book_taken_out = tk.Label(self.book_info, text="Num. Taken Out: ")
+        self.book_taken_out.grid(row=0, column=0, sticky=tk.NW)
+
+        self.book_in_stock = tk.Label(self.book_info, text="Num. In Stock: ")
+        self.book_in_stock.grid(row=1, column=0, sticky=tk.NW)
+        
+        self.book_info.grid(row=3, column=1)
+
+        self.takeout_butt = ttk.Button(self.root, text="Takeout Book")
+        self.takeout_butt.grid(row=3, column=0, padx=self.PADX, pady=self.PADY_ENTRY, sticky=tk.NW)
+    
+    def update_info(self):
+        book = self.combo_name.get()
+        if book:
+            self.book_taken_out.config(text=f"Num. Taken Out: {self.books[book]['total'] - self.books[book]['in-stock']}")
+            self.book_in_stock.config(text=f"Num. In Stock: {self.books[book]['in-stock']}")
+
+    def on_combo_change(self, index, value, op):
+        self.update_info()
+
+    def take_out_book(self):
+        book = self.combo_name.get()
+        if self.books[book]['in-stock'] <= 0:
+            messagebox.showerror("Error", "Not Enough Books In Stock")
+            return
+
+        temp = self.books
+        temp[book]['in-stock'] -= 1
+        self.save_to_file(temp)
+
+        self.update_info()
+
+    def return_book(self):
+        book = self.combo_name.get()
+        if self.books[book]['in-stock'] == self.books[book]['total']:
+            messagebox.showerror("Error", "All of these books are already in stock")
+            return
+
+        temp = self.books
+        temp[book]['in-stock'] -= 1
+        self.save_to_file(temp)
+
+        self.update_info()
+    
 class MainApp(Window):
     '''
         The main body of the app, being what everything else is built on top of
