@@ -125,6 +125,20 @@ class BookAdd(Window):
         
         self.save_to_file(temp_books)
 
+class BookManage(Window):
+
+    def __init__(self, root):
+        self.root = root
+        super().__init__()
+
+        self.title = tk.Label(self.root, text="Manage Library", font=self.TITLE_FONT)
+        self.title.grid(row=0, column=0, columnspan=2)
+
+        self.back_butt = ttk.Button(self.root, text="go back", command=lambda: self.change_window(MainApp))
+        self.back_butt.grid(row=1, column=0, padx=self.PADX)
+
+        self.combo_name = ttk.Combobox(self.root, values=[key for key in self.books.keys()])
+        self.combo_name.grid(row=2, column=1, pady=self.PADY_ENTRY)  
 
 class MainApp(Window):
     '''
@@ -133,8 +147,6 @@ class MainApp(Window):
 
     def __init__(self, root):
         self.root = root
-
-        print(self.books)
 
         self.title = tk.Label(self.root ,text="Library System", font=self.TITLE_FONT)
         self.title.grid(row=0, column=0, columnspan=2)
@@ -146,6 +158,9 @@ class MainApp(Window):
 
         self.add_butt = ttk.Button(self.root, text="Add Book", command=lambda:self.change_window(BookAdd))
         self.add_butt.grid(row=1, column=1, sticky=tk.NW, pady=self.PADY)
+
+        self.mgmt_butt = ttk.Button(self.root, text="Manage Books", command=lambda:self.change_window(BookManage))
+        self.mgmt_butt.grid(row=1, column=2, sticky=tk.NW, pady=self.PADY)
         
     def mainloop(self):
         self.root.mainloop()
