@@ -67,14 +67,26 @@ class BookAdd(Window):
 
         self.form = tk.Frame(self.root)
 
+        self.label_name = tk.Label(self.form, text="Book Name")
+        self.label_name.grid(row=0, column=0, sticky=tk.NW, pady=self.PADY_ENTRY)
+        
         self.entry_name = ttk.Entry(self.form)
         self.entry_name.grid(row=0, column=1, sticky=tk.NW, pady=self.PADY_ENTRY)
+
+        self.label_author = tk.Label(self.form, text="Book Author")
+        self.label_author.grid(row=1, column=0, sticky=tk.NW, pady=self.PADY_ENTRY)
 
         self.entry_author = ttk.Entry(self.form)
         self.entry_author.grid(row=1, column=1, sticky=tk.NW, pady=self.PADY_ENTRY)
 
+        self.label_desc = tk.Label(self.form, text="Book Brief")
+        self.label_desc.grid(row=2, column=0, sticky=tk.NW, pady=self.PADY_ENTRY)
+
         self.entry_desc = ttk.Entry(self.form)
         self.entry_desc.grid(row=2, column=1, sticky=tk.NW, pady=self.PADY_ENTRY)
+
+        self.label_pages = tk.Label(self.form, text="Page Count")
+        self.label_pages.grid(row=3, column=0, sticky=tk.NW, pady=self.PADY_ENTRY)
 
         self.entry_pages = ttk.Spinbox(self.form, from_=0, to=1000, wrap=True)
         self.entry_pages.grid(row=3, column=1, sticky=tk.NW, pady=self.PADY_ENTRY)
@@ -86,6 +98,9 @@ class BookAdd(Window):
         self.paperback_val = tk.IntVar()
         self.entry_paperback = ttk.Checkbutton(self.form, text="paperback", variable=self.paperback_val)
         self.entry_paperback.grid(row=4, column=1, pady=self.PADY_ENTRY)
+
+        self.label_amount = tk.Label(self.form, text="Amount of Books")
+        self.label_amount.grid(row=5, column=0, sticky=tk.NW, pady=self.PADY_ENTRY)
 
         self.entry_amount = ttk.Spinbox(self.form, from_=1, to=100, wrap=True)
         self.entry_amount.grid(row=5, column=1, sticky=tk.NW, pady=self.PADY_ENTRY)
@@ -160,14 +175,14 @@ class MainApp(Window):
         self.add_butt.grid(row=1, column=1, sticky=tk.NW, pady=self.PADY)
 
         self.mgmt_butt = ttk.Button(self.root, text="Manage Books", command=lambda:self.change_window(BookManage))
-        self.mgmt_butt.grid(row=1, column=2, sticky=tk.NW, pady=self.PADY)
+        self.mgmt_butt.grid(row=1, column=2, sticky=tk.NW, pady=self.PADY, padx=self.PADX)
         
     def mainloop(self):
         self.root.mainloop()
 
 if __name__ == '__main__':
     root = tk.Tk()
-    root.geometry("500x500")
+    #root.geometry("500x500")
     root.resizable(False, False)
 
     app = MainApp(root)
