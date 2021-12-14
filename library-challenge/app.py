@@ -61,9 +61,9 @@ class BookAdd(Window):
         self.back_butt = ttk.Button(self.root, text="go back", command=lambda:self.change_window(MainApp))
         self.back_butt.grid(row=1, column=0, sticky=tk.NW, padx=self.PADX)
 
-        #========#
-        ## form ##
-        #========#
+        #==============#
+        ## entry form ##
+        #==============#
 
         self.form = tk.Frame(self.root)
 
@@ -107,7 +107,7 @@ class BookAdd(Window):
 
         self.form.grid(row=2, column=0, columnspan=2, pady=self.PADY, padx=self.PADX)
 
-        #========#
+        #==============#
 
         self.save_butt = ttk.Button(self.root, text="Save Book", command=self.save_book)
         self.save_butt.grid(row=3, column=0, sticky=tk.NW, pady=self.PADY, padx=self.PADX)
