@@ -33,7 +33,7 @@ class Window(tk.Frame):
             raise TypeError("Books argument should be a dictionary")
 
         with open(f"{self.FILE_PATH}\\books.json", "w") as f:
-            json.dump(books, f)
+            json.dump(books, f, indent=4)
 
 class BookSearch(Window):
 
@@ -100,6 +100,7 @@ class BookAdd(Window):
     def save_book(self):
     
         try:
+            # validation checks
             assert self.entry_name.get() not in self.books.keys(), "book already exists in library"
             assert int(self.entry_pages.get()), "page count music be a positive integer"
             assert int(self.entry_amount.get()), "amount of books must be a positive interger"
@@ -123,7 +124,7 @@ class BookAdd(Window):
         temp_books[self.entry_name.get()] = book
         
         self.save_to_file(temp_books)
-        
+
 
 class MainApp(Window):
     '''
