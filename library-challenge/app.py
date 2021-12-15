@@ -176,6 +176,9 @@ class BookManage(Window):
 
         self.takeout_butt = ttk.Button(self.root, text="Takeout Book", command=self.take_out_book)
         self.takeout_butt.grid(row=3, column=0, padx=self.PADX, pady=self.PADY_ENTRY, sticky=tk.NW)
+
+        self.return_butt = ttk.Button(self.root, text="Return Book", command=self.return_book)
+        self.return_butt.grid(row=4, column=0, padx=self.PADX, pady=self.PADY_ENTRY, sticky=tk.NW)
     
     def update_info(self):
         book = self.combo_name.get()
@@ -205,7 +208,8 @@ class BookManage(Window):
             return
 
         temp = self.books
-        temp[book]['in-stock'] -= 1
+        temp[book]['in-stock'] += 1
+        temp[book]['taken-out'] -= 1
         self.save_to_file(temp)
 
         self.update_info()

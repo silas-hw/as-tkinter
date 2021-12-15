@@ -83,8 +83,8 @@
         "pages": 590,
         "hardback": true,
         "paperback": false,
-        "in-stock": 3,
-        "taken-out": 7,
+        "in-stock": 5,
+        "taken-out": -11,
         "total": 10
     },
     "book9": {
