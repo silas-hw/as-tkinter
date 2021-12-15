@@ -49,7 +49,7 @@ class BookSearch(Window):
 
         super().__init__()
 
-        self.title = tk.Label(self.root, text="Search for a Book", font=self.TITLE_FONT)
+        self.title = tk.Label(self.root, text="Search Books", font=self.TITLE_FONT)
         self.title.grid(row=0, column=0, columnspan=2)
 
         self.back_butt = ttk.Button(self.root, text="go back", command=lambda: self.change_window(MainApp))
