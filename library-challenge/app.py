@@ -1,3 +1,8 @@
+'''
+    This tkinter project makes use of a lot of classes and core oop concepts that we haven't yet been taught in class yet. If you're having trouble peer
+    marking it because of this you can just ask me to explain some of it to you :)
+'''
+
 import json, os
 import tkinter as tk
 from tkinter import ttk #has better looking widgets
