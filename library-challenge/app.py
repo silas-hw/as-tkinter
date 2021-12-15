@@ -107,7 +107,20 @@ class BookSearch(Window):
         self.search_butt.grid(row=3, column=0, pady=self.PADY, padx=self.PADX)
 
     def search(self):
-        pass
+        name = self.entry_name.get()
+        author = self.entry_author.get()
+        desc = self.entry_desc.get()
+        page_count = self.entry_pages.get()
+        hardback = self.entry_hardback.get()
+        paperback = self.entry_paperback.get()
+        amount = self.entry_amount.get()
+
+        try:
+            assert int(page_count)>=0, "Page count must be a positive integer"
+            assert not (hardback and paperback), "Book can only either be paperback or hardback, not both"
+            assert int(amount)>=0, "Book amount must be a positive integer"
+        except Exception as e:
+            messagebox.showerror("Error", e)
 
 class BookAdd(Window):
 
