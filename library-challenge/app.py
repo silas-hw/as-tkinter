@@ -3,7 +3,7 @@
     marking it because of this you can just ask me to explain some of it to you :)
 '''
 
-import json, os
+import json, os, inspect
 import tkinter as tk
 from tkinter import ttk #has better looking widgets
 from tkinter import messagebox
@@ -22,11 +22,30 @@ class Window(tk.Frame):
     PADY = 10
     PADY_ENTRY = 3
 
-    def change_window(self, window):
+    themes = {
+        "dark":{
+            "bg":"#303030",
+            "fg":"#ffffff"
+        },
+        "light":{
+            "bg":"#ffffff",
+            "fg":"#262626"
+
+        }
+    }
+
+    current_theme = "light"
+
+    def __init__(self, root):
+        style = ttk.Style()
+        style.configure("light.TCheckbutton", foreground=self.themes['light']['fg'], background=self.themes['light']['bg'])
+        style.configure("dark.TCheckbutton", foreground=self.themes['dark']['fg'], background=self.themes['dark']['bg'])
+
+    def change_window(self, window, theme='light'):
         for widget in self.root.winfo_children():
             widget.destroy()
 
-        window(self.root)
+        window(self.root, theme)
 
     @property
     def books(self):
@@ -42,17 +61,45 @@ class Window(tk.Frame):
         with open(f"{self.FILE_PATH}\\books.json", "w") as f:
             json.dump(books, f, indent=4)
 
+    def tk_config(self, theme, widget, name):
+        if name == 'Label':
+            widget.config(bg=self.themes[theme]['bg'], fg=self.themes[theme]['fg'])
+        elif name == 'Checkbutton': #checkbuttons will always be with ttk
+            widget.config(style=f"{theme}.TCheckbutton")
+        elif name == 'Frame':
+            widget.config(bg=self.themes[theme]['bg'])
+
+            for child in widget.winfo_children():
+                child_name = child.__class__.__name__
+
+                #this uses recursion, allowing for frames to be configured regardless of how many frames its already a child of
+                self.tk_config(theme, child, child_name)
+        
+
+    def change_theme(self, theme:str):
+        for widget in self.root.winfo_children():
+            parent_module = inspect.getmodule(widget).__name__
+
+            obj_name = widget.__class__.__name__
+
+            self.root.config(bg=self.themes[theme]['bg'])
+
+            if parent_module == 'tkinter':
+                self.tk_config(theme, widget, obj_name)
+            elif parent_module == 'tkinter.ttk':
+                self.tk_config(theme, widget, obj_name)
+                
+
 class BookSearch(Window):
 
-    def __init__(self, root):
+    def __init__(self, root, theme='light'):
         self.root = root
-
-        super().__init__()
+        self.current_theme = theme
 
         self.title = tk.Label(self.root, text="Search Books", font=self.TITLE_FONT)
         self.title.grid(row=0, column=0, columnspan=2)
 
-        self.back_butt = ttk.Button(self.root, text="go back", command=lambda: self.change_window(MainApp))
+        self.back_butt = ttk.Button(self.root, text="go back", command=lambda: self.change_window(MainApp, self.current_theme))
         self.back_butt.grid(row=1, column=0, sticky=tk.NW, padx=self.PADX)
 
         #==============#
@@ -106,6 +153,10 @@ class BookSearch(Window):
         self.search_butt = ttk.Button(self.root, text="Search", command=self.search)
         self.search_butt.grid(row=3, column=0, pady=self.PADY, padx=self.PADX)
 
+        super().__init__(self.root)
+
+        self.change_theme(self.current_theme)
+
     def search(self):
         name = self.entry_name.get()
         author = self.entry_author.get()
@@ -124,15 +175,14 @@ class BookSearch(Window):
 
 class BookAdd(Window):
 
-    def __init__(self, root):
+    def __init__(self, root, theme='light'):
         self.root = root
-
-        super().__init__()
+        self.current_theme = theme
 
         self.title = tk.Label(self.root, text="Add a Book", font=self.TITLE_FONT)
         self.title.grid(row=0, column=0, columnspan=2)
 
-        self.back_butt = ttk.Button(self.root, text="go back", command=lambda:self.change_window(MainApp))
+        self.back_butt = ttk.Button(self.root, text="go back", command=lambda:self.change_window(MainApp, self.current_theme))
         self.back_butt.grid(row=1, column=0, sticky=tk.NW, padx=self.PADX)
 
         #==============#
@@ -186,6 +236,10 @@ class BookAdd(Window):
         self.save_butt = ttk.Button(self.root, text="Save Book", command=self.save_book)
         self.save_butt.grid(row=3, column=0, sticky=tk.NW, pady=self.PADY, padx=self.PADX)
 
+        super().__init__(self.root)
+
+        self.change_theme(self.current_theme)
+
     def save_book(self):
     
         try:
@@ -216,14 +270,14 @@ class BookAdd(Window):
 
 class BookManage(Window):
 
-    def __init__(self, root):
+    def __init__(self, root, theme='light'):
         self.root = root
-        super().__init__()
+        self.current_theme = theme
 
         self.title = tk.Label(self.root, text="Manage Library", font=self.TITLE_FONT)
         self.title.grid(row=0, column=0, columnspan=2)
 
-        self.back_butt = ttk.Button(self.root, text="go back", command=lambda: self.change_window(MainApp))
+        self.back_butt = ttk.Button(self.root, text="go back", command=lambda: self.change_window(MainApp, self.current_theme))
         self.back_butt.grid(row=1, column=0, padx=self.PADX, sticky=tk.NW)
 
         self.combo_var = tk.StringVar()
@@ -246,6 +300,10 @@ class BookManage(Window):
 
         self.return_butt = ttk.Button(self.root, text="Return Book", command=self.return_book)
         self.return_butt.grid(row=4, column=0, padx=self.PADX, pady=self.PADY_ENTRY, sticky=tk.NW)
+
+        super().__init__(self.root)
+
+        self.change_theme(self.current_theme)
     
     def update_info(self):
         book = self.combo_name.get()
@@ -286,22 +344,38 @@ class MainApp(Window):
         The main body of the app, being what everything else is built on top of
     '''
 
-    def __init__(self, root):
+    def __init__(self, root, theme='light'):
         self.root = root
+        self.current_theme = theme
 
         self.title = tk.Label(self.root ,text="Library System", font=self.TITLE_FONT)
         self.title.grid(row=0, column=0, columnspan=2)
 
         self.main_menu = tk.Frame(self.root)
 
-        self.search_butt = ttk.Button(self.root, text="Search For Book", command=lambda:self.change_window(BookSearch))
+        self.search_butt = ttk.Button(self.root, text="Search For Book", command=lambda:self.change_window(BookSearch, self.current_theme))
         self.search_butt.grid(row=1, column=0, sticky=tk.NW, pady=self.PADY, padx=self.PADX)
 
-        self.add_butt = ttk.Button(self.root, text="Add Book", command=lambda:self.change_window(BookAdd))
+        self.add_butt = ttk.Button(self.root, text="Add Book", command=lambda:self.change_window(BookAdd, self.current_theme))
         self.add_butt.grid(row=1, column=1, sticky=tk.NW, pady=self.PADY)
 
-        self.mgmt_butt = ttk.Button(self.root, text="Manage Books", command=lambda:self.change_window(BookManage))
+        self.mgmt_butt = ttk.Button(self.root, text="Manage Books", command=lambda:self.change_window(BookManage, self.current_theme))
         self.mgmt_butt.grid(row=1, column=2, sticky=tk.NW, pady=self.PADY, padx=self.PADX)
+
+        self.theme_butt = ttk.Button(self.root, text="Toggle Theme", command=self.theme_butt)
+        self.theme_butt.grid(row=2, column=1, sticky=tk.NW, pady=self.PADY, padx=self.PADX)
+
+        super().__init__(self.root)
+
+        self.change_theme(self.current_theme)
+
+    def theme_butt(self):
+        if self.current_theme == 'light':
+            self.current_theme = 'dark'
+        else:
+            self.current_theme = 'light'
+
+        self.change_theme(self.current_theme)
         
     def mainloop(self):
         self.root.mainloop()
