@@ -55,6 +55,60 @@ class BookSearch(Window):
         self.back_butt = ttk.Button(self.root, text="go back", command=lambda: self.change_window(MainApp))
         self.back_butt.grid(row=1, column=0, sticky=tk.NW, padx=self.PADX)
 
+        #==============#
+        ## entry form ##
+        #==============#
+
+        self.form = tk.Frame(self.root)
+
+        self.label_name = tk.Label(self.form, text="Book Name")
+        self.label_name.grid(row=0, column=0, sticky=tk.NW, pady=self.PADY_ENTRY)
+        
+        self.entry_name = ttk.Entry(self.form)
+        self.entry_name.grid(row=0, column=1, sticky=tk.NW, pady=self.PADY_ENTRY)
+
+        self.label_author = tk.Label(self.form, text="Book Author")
+        self.label_author.grid(row=1, column=0, sticky=tk.NW, pady=self.PADY_ENTRY)
+
+        self.entry_author = ttk.Entry(self.form)
+        self.entry_author.grid(row=1, column=1, sticky=tk.NW, pady=self.PADY_ENTRY)
+
+        self.label_desc = tk.Label(self.form, text="Book Brief")
+        self.label_desc.grid(row=2, column=0, sticky=tk.NW, pady=self.PADY_ENTRY)
+
+        self.entry_desc = ttk.Entry(self.form)
+        self.entry_desc.grid(row=2, column=1, sticky=tk.NW, pady=self.PADY_ENTRY)
+
+        self.label_pages = tk.Label(self.form, text="Page Count")
+        self.label_pages.grid(row=3, column=0, sticky=tk.NW, pady=self.PADY_ENTRY)
+
+        self.entry_pages = ttk.Spinbox(self.form, from_=0, to=1000, wrap=True)
+        self.entry_pages.grid(row=3, column=1, sticky=tk.NW, pady=self.PADY_ENTRY)
+
+        self.hardback_val = tk.IntVar()
+        self.entry_hardback = ttk.Checkbutton(self.form, text="hardback", variable=self.hardback_val)
+        self.entry_hardback.grid(row=4, column=0, pady=self.PADY_ENTRY)
+
+        self.paperback_val = tk.IntVar()
+        self.entry_paperback = ttk.Checkbutton(self.form, text="paperback", variable=self.paperback_val)
+        self.entry_paperback.grid(row=4, column=1, pady=self.PADY_ENTRY)
+
+        self.label_amount = tk.Label(self.form, text="Amount of Books")
+        self.label_amount.grid(row=5, column=0, sticky=tk.NW, pady=self.PADY_ENTRY)
+
+        self.entry_amount = ttk.Spinbox(self.form, from_=1, to=100, wrap=True)
+        self.entry_amount.grid(row=5, column=1, sticky=tk.NW, pady=self.PADY_ENTRY)
+
+        self.form.grid(row=2, column=0, columnspan=2, pady=self.PADY, padx=self.PADX)
+
+        #==============#
+
+        self.search_butt = ttk.Button(self.root, text="Search", command=self.search)
+        self.search_butt.grid(row=3, column=0, pady=self.PADY, padx=self.PADX)
+
+    def search(self):
+        pass
+
 class BookAdd(Window):
 
     def __init__(self, root):
