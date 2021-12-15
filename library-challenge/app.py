@@ -25,11 +25,15 @@ class Window(tk.Frame):
     themes = {
         "dark":{
             "bg":"#303030",
-            "fg":"#ffffff"
+            "fg":"#ffffff",
+            "butt-bg":"#6b6b6b",
+            "butt-fg":"#ffffff"
         },
         "light":{
             "bg":"#ffffff",
-            "fg":"#262626"
+            "fg":"#262626",
+            "butt-bg":"#d9d9d9",
+            "butt-fg":"#262626"
 
         }
     }
@@ -38,8 +42,20 @@ class Window(tk.Frame):
 
     def __init__(self, root):
         style = ttk.Style()
-        style.configure("light.TCheckbutton", foreground=self.themes['light']['fg'], background=self.themes['light']['bg'])
+
+        style.theme_use('default')
+        style.configure("TButton", relief='flat')
+
+        style.map('TCheckButton', highlightbackground=[('active', 'black')])
+
+        style.configure("light.TCheckbutton", foreground=self.themes['light']['fg'], background=self.themes['light']['bg'], activebackground=self.themes['light']['bg'], highlightcolor=self.themes['light']['bg'])
+        style.map('light.TCheckButton', background=[('active', self.themes['light']['bg'])], highlightcolor=[('focus', self.themes['light']['bg'])])
+
+        style.configure("light.TButton", foreground=self.themes['light']['butt-fg'], background=self.themes['light']['butt-bg'])
+
         style.configure("dark.TCheckbutton", foreground=self.themes['dark']['fg'], background=self.themes['dark']['bg'])
+        style.map("dark.TCheckButton", background=[('active', self.themes['dark']['bg'])])
+        style.configure("dark.TButton", foreground=self.themes['dark']['butt-fg'], background=self.themes['dark']['butt-bg'])
 
     def change_window(self, window, theme='light'):
         for widget in self.root.winfo_children():
@@ -65,7 +81,9 @@ class Window(tk.Frame):
         if name == 'Label':
             widget.config(bg=self.themes[theme]['bg'], fg=self.themes[theme]['fg'])
         elif name == 'Checkbutton': #checkbuttons will always be with ttk
-            widget.config(style=f"{theme}.TCheckbutton")
+            widget.config(background=self.themes[theme]['bg'], activebackground=self.themes[theme]['bg'], fg=self.themes[theme]['fg'], activeforeground=self.themes[theme]['fg'], selectcolor='#91d5f2')
+        elif name == "Button":
+            widget.config(style=f"{theme}.TButton")
         elif name == 'Frame':
             widget.config(bg=self.themes[theme]['bg'])
 
@@ -133,11 +151,11 @@ class BookSearch(Window):
         self.entry_pages.grid(row=3, column=1, sticky=tk.NW, pady=self.PADY_ENTRY)
 
         self.hardback_val = tk.IntVar()
-        self.entry_hardback = ttk.Checkbutton(self.form, text="hardback", variable=self.hardback_val)
+        self.entry_hardback = tk.Checkbutton(self.form, text="hardback", variable=self.hardback_val)
         self.entry_hardback.grid(row=4, column=0, pady=self.PADY_ENTRY)
 
         self.paperback_val = tk.IntVar()
-        self.entry_paperback = ttk.Checkbutton(self.form, text="paperback", variable=self.paperback_val)
+        self.entry_paperback = tk.Checkbutton(self.form, text="paperback", variable=self.paperback_val)
         self.entry_paperback.grid(row=4, column=1, pady=self.PADY_ENTRY)
 
         self.label_amount = tk.Label(self.form, text="Amount of Books")
@@ -216,11 +234,11 @@ class BookAdd(Window):
         self.entry_pages.grid(row=3, column=1, sticky=tk.NW, pady=self.PADY_ENTRY)
 
         self.hardback_val = tk.IntVar()
-        self.entry_hardback = ttk.Checkbutton(self.form, text="hardback", variable=self.hardback_val)
+        self.entry_hardback = tk.Checkbutton(self.form, text="hardback", variable=self.hardback_val)
         self.entry_hardback.grid(row=4, column=0, pady=self.PADY_ENTRY)
 
         self.paperback_val = tk.IntVar()
-        self.entry_paperback = ttk.Checkbutton(self.form, text="paperback", variable=self.paperback_val)
+        self.entry_paperback = tk.Checkbutton(self.form, text="paperback", variable=self.paperback_val)
         self.entry_paperback.grid(row=4, column=1, pady=self.PADY_ENTRY)
 
         self.label_amount = tk.Label(self.form, text="Amount of Books")
