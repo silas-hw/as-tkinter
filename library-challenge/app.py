@@ -174,7 +174,7 @@ class BookManage(Window):
         
         self.book_info.grid(row=3, column=1)
 
-        self.takeout_butt = ttk.Button(self.root, text="Takeout Book")
+        self.takeout_butt = ttk.Button(self.root, text="Takeout Book", command=self.take_out_book)
         self.takeout_butt.grid(row=3, column=0, padx=self.PADX, pady=self.PADY_ENTRY, sticky=tk.NW)
     
     def update_info(self):
