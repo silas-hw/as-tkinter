@@ -32,7 +32,7 @@ class Window(tk.Frame):
 
     def save_to_file(self, books:dict) -> None:
         if not isinstance(books, dict):
-            raise TypeError("Books argument should be a dictionary")
+            raise TypeError("Books argument should be a dictionary") #raises an exception if books arg doesnt have the type of a dict
 
         with open(f"{self.FILE_PATH}\\books.json", "w") as f:
             json.dump(books, f, indent=4)
