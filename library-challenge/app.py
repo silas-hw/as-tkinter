@@ -41,21 +41,23 @@ class Window(tk.Frame):
     current_theme = "light"
 
     def __init__(self, root):
+
+        #set up styles for light and dark theme ttk widgets
         style = ttk.Style()
 
         style.theme_use('default')
-        style.configure("TButton", relief='flat')
+        style.configure("TButton", relief='flat', bd=0)
 
-        style.map('TCheckButton', highlightbackground=[('active', 'black')])
+        #####################################################################################################################################
+        ## theres a lot of awkward things I have to do here in order to get the ttk widgets looking decent with the light and dark themes ###
+        ## if you're at all interested at what the heck any of this means its likely best to rummage through what docs for ttk there are  ###
+        #####################################################################################################################################
 
-        style.configure("light.TCheckbutton", foreground=self.themes['light']['fg'], background=self.themes['light']['bg'], activebackground=self.themes['light']['bg'], highlightcolor=self.themes['light']['bg'])
-        style.map('light.TCheckButton', background=[('active', self.themes['light']['bg'])], highlightcolor=[('focus', self.themes['light']['bg'])])
-
-        style.configure("light.TButton", foreground=self.themes['light']['butt-fg'], background=self.themes['light']['butt-bg'])
-
-        style.configure("dark.TCheckbutton", foreground=self.themes['dark']['fg'], background=self.themes['dark']['bg'])
-        style.map("dark.TCheckButton", background=[('active', self.themes['dark']['bg'])])
-        style.configure("dark.TButton", foreground=self.themes['dark']['butt-fg'], background=self.themes['dark']['butt-bg'])
+        style.configure("light.TButton", foreground=self.themes['light']['butt-fg'], background=self.themes['light']['butt-bg'], focuscolor=self.themes['light']['butt-bg'])
+        style.map("light.TButton", background=[('active', self.themes['light']['butt-bg'])], foreground=[('active', self.themes['light']['butt-fg'])])
+    
+        style.configure("dark.TButton", foreground=self.themes['dark']['butt-fg'], background=self.themes['dark']['butt-bg'], focuscolor=self.themes['dark']['butt-bg'])
+        style.map("dark.TButton", background=[('active', self.themes['dark']['butt-bg'])], foreground=[('active', self.themes['dark']['butt-fg'])])
 
     def change_window(self, window, theme='light'):
         for widget in self.root.winfo_children():
