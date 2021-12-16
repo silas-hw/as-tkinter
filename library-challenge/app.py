@@ -383,7 +383,7 @@ class MainApp(Window):
         self.mgmt_butt.grid(row=1, column=2, sticky=tk.NW, pady=self.PADY, padx=self.PADX)
 
         self.theme_butt = ttk.Button(self.root, text="Toggle Theme", command=self.theme_butt)
-        self.theme_butt.grid(row=2, column=1, sticky=tk.NW, pady=self.PADY, padx=self.PADX)
+        self.theme_butt.grid(row=2, column=1, sticky=tk.NW, pady=self.PADY)
 
         super().__init__(self.root)
 
