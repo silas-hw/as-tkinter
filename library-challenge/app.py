@@ -27,13 +27,15 @@ class Window(tk.Frame):
             "bg":"#303030",
             "fg":"#ffffff",
             "butt-bg":"#6b6b6b",
-            "butt-fg":"#ffffff"
+            "butt-fg":"#ffffff",
+            "butt-hl":"#878787"
         },
         "light":{
             "bg":"#ffffff",
             "fg":"#262626",
             "butt-bg":"#d9d9d9",
-            "butt-fg":"#262626"
+            "butt-fg":"#262626",
+            "butt-hl":"#b0b0b0"
 
         }
     }
@@ -53,11 +55,11 @@ class Window(tk.Frame):
         ## if you're at all interested at what the heck any of this means its likely best to rummage through what docs for ttk there are  ###
         #####################################################################################################################################
 
-        style.configure("light.TButton", foreground=self.themes['light']['butt-fg'], background=self.themes['light']['butt-bg'], focuscolor=self.themes['light']['butt-bg'])
-        style.map("light.TButton", background=[('active', self.themes['light']['butt-bg'])], foreground=[('active', self.themes['light']['butt-fg'])])
+        style.configure("light.TButton", foreground=self.themes['light']['butt-fg'], background=self.themes['light']['butt-bg'], focuscolor=self.themes['light']['butt-hl'])
+        style.map("light.TButton", background=[('focus', self.themes['light']['butt-hl'])])
     
-        style.configure("dark.TButton", foreground=self.themes['dark']['butt-fg'], background=self.themes['dark']['butt-bg'], focuscolor=self.themes['dark']['butt-bg'])
-        style.map("dark.TButton", background=[('active', self.themes['dark']['butt-bg'])], foreground=[('active', self.themes['dark']['butt-fg'])])
+        style.configure("dark.TButton", foreground=self.themes['dark']['butt-fg'], background=self.themes['dark']['butt-bg'], focuscolor=self.themes['dark']['butt-hl'])
+        style.map("dark.TButton", background=[('focus', self.themes['dark']['butt-hl'])])
 
     def change_window(self, window, theme='light'):
         for widget in self.root.winfo_children():
