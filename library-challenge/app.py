@@ -61,6 +61,14 @@ class Window(tk.Frame):
         style.configure("dark.TButton", foreground=self.themes['dark']['butt-fg'], background=self.themes['dark']['butt-bg'], focuscolor=self.themes['dark']['butt-hl'])
         style.map("dark.TButton", background=[('focus', self.themes['dark']['butt-hl'])])
 
+        style.configure("light.TCombobox", relief='flat')
+        style.map("light.TCombobox", selectbackground=[('focus', self.themes['light']['bg'])], selectforeground=[('focus', self.themes['light']['fg'])])
+
+        style.configure("dark.TCombobox", relief='flat')
+        style.map("dark.TCombobox", selectbackground=[('focus', self.themes['dark']['bg'])], selectforeground=[('focus', self.themes['dark']['fg'])])
+
+        #####################################################################################################################################
+
     def change_window(self, window, theme='light'):
         for widget in self.root.winfo_children():
             widget.destroy()
@@ -86,6 +94,8 @@ class Window(tk.Frame):
             widget.config(bg=self.themes[theme]['bg'], fg=self.themes[theme]['fg'])
         elif name == 'Checkbutton': #checkbuttons will always be with ttk
             widget.config(background=self.themes[theme]['bg'], activebackground=self.themes[theme]['bg'], fg=self.themes[theme]['fg'], activeforeground=self.themes[theme]['fg'], selectcolor='#91d5f2')
+        elif name == 'Combobox':
+            widget.config(style=f"{theme}.TCombobox")
         elif name == "Button":
             widget.config(style=f"{theme}.TButton")
         elif name == 'Frame':
@@ -306,7 +316,7 @@ class BookManage(Window):
         self.combo_var.trace('w', self.on_combo_change) # call function when value of combobox changes
 
         self.combo_name = ttk.Combobox(self.root, values=[key for key in self.books.keys()], textvariable=self.combo_var)
-        self.combo_name.grid(row=2, column=1, pady=self.PADY_ENTRY)  
+        self.combo_name.grid(row=2, column=1, pady=self.PADY_ENTRY, sticky=tk.NW)  
 
         self.book_info = tk.Frame(self.root)
         self.book_taken_out = tk.Label(self.book_info, text="Num. Taken Out: ")
@@ -315,7 +325,7 @@ class BookManage(Window):
         self.book_in_stock = tk.Label(self.book_info, text="Num. In Stock: ")
         self.book_in_stock.grid(row=1, column=0, sticky=tk.NW)
         
-        self.book_info.grid(row=3, column=1)
+        self.book_info.grid(row=3, column=1, sticky=tk.NW)
 
         self.takeout_butt = ttk.Button(self.root, text="Takeout Book", command=self.take_out_book)
         self.takeout_butt.grid(row=3, column=0, padx=self.PADX, pady=self.PADY_ENTRY, sticky=tk.NW)
@@ -329,9 +339,12 @@ class BookManage(Window):
     
     def update_info(self):
         book = self.combo_name.get()
-        if book:
+        if book in self.books.keys():
             self.book_taken_out.config(text=f"Num. Taken Out: {self.books[book]['total'] - self.books[book]['in-stock']}")
             self.book_in_stock.config(text=f"Num. In Stock: {self.books[book]['in-stock']}")
+        else:
+            self.book_taken_out.config(text=f"Num. Taken Out:")
+            self.book_in_stock.config(text=f"Num. In Stock:")
 
     def on_combo_change(self, index, value, op):
         self.update_info()
