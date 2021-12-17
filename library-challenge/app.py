@@ -24,8 +24,8 @@ class Window(tk.Frame):
 
     themes = {
         "dark":{
-            "bg":"#303030",
-            "fg":"#ffffff",
+            "bg":"#333333",
+            "fg":"#bebaf5",
             "butt-bg":"#6b6b6b",
             "butt-fg":"#ffffff",
             "butt-hl":"#878787"
