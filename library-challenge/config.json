@@ -1,0 +1,26 @@
+{
+    "themes":{
+        "dark":{
+            "bg":"#333333",
+            "fg":"#bebaf5",
+            "butt-bg":"#6b6b6b",
+            "butt-fg":"#ffffff",
+            "butt-hl":"#878787"
+        },
+        "light":{
+            "bg":"#ffffff",
+            "fg":"#262626",
+            "butt-bg":"#d9d9d9",
+            "butt-fg":"#262626",
+            "butt-hl":"#b0b0b0"
+
+        }
+    },
+
+    "constants":{
+        "PADY":10,
+        "PADY_ENTRY":3,
+        "PADX":10,
+        "TITLE_FONT":"('Arial', 30, 'bold')"
+    }
+}
