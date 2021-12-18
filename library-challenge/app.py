@@ -16,6 +16,7 @@ class Window(tk.Frame):
     #constants that are used in every window
     FILE_PATH = os.path.dirname(os.path.realpath(__file__)) # gets the directory of the python file, so file operations can be done regardless of the current working directory
 
+    #read config data
     with open(f"{FILE_PATH}\\config.json", "r") as f:
         _config = json.load(f) #leading a variable with an underscore is used for private variables
         _constants = _config['constants']
