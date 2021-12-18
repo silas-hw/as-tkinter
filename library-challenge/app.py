@@ -183,8 +183,8 @@ class BookSearch(Window):
         author = self.entry_author.get()
         desc = self.entry_desc.get()
         page_count = self.entry_pages.get()
-        hardback = self.entry_hardback.get()
-        paperback = self.entry_paperback.get()
+        hardback = self.hardback_val.get()
+        paperback = self.paperback_val.get()
         amount = self.entry_amount.get()
 
         try:
