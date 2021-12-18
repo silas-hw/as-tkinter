@@ -3,7 +3,7 @@
     marking it because of this you can just ask me to explain some of it to you :)
 '''
 
-import json, os, inspect
+import json, os, inspect, ast
 import tkinter as tk
 from tkinter import ttk #has better looking widgets
 from tkinter import messagebox
@@ -16,29 +16,17 @@ class Window(tk.Frame):
     #constants that are used in every window
     FILE_PATH = os.path.dirname(os.path.realpath(__file__)) # gets the directory of the python file, so file operations can be done regardless of the current working directory
 
-    TITLE_FONT = ("Arial", 30, "bold")
+    with open(f"{FILE_PATH}\\config.json", "r") as f:
+        _config = json.load(f) #leading a variable with an underscore is used for private variables
+        _constants = _config['constants']
 
-    PADX = 10
-    PADY = 10
-    PADY_ENTRY = 3
+        themes = _config['themes']
 
-    themes = {
-        "dark":{
-            "bg":"#333333",
-            "fg":"#bebaf5",
-            "butt-bg":"#6b6b6b",
-            "butt-fg":"#ffffff",
-            "butt-hl":"#878787"
-        },
-        "light":{
-            "bg":"#ffffff",
-            "fg":"#262626",
-            "butt-bg":"#d9d9d9",
-            "butt-fg":"#262626",
-            "butt-hl":"#b0b0b0"
+        TITLE_FONT = ast.literal_eval(_constants['TITLE_FONT']) #literal eval prevents the security risk that comes with the eval method
 
-        }
-    }
+        PADX = _constants['PADX']
+        PADY = _constants['PADY']
+        PADY_ENTRY = _constants['PADY_ENTRY']
 
     current_theme = "light"
 
