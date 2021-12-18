@@ -113,6 +113,18 @@ class Window(tk.Frame):
 
 class BookSearch(Window):
 
+    tree_widths = {
+        "name":70,
+        "author":100,
+        "brief":110,
+        "pages":40,
+        "hardback":60,
+        "paperback":63,
+        "in-stock":51,
+        "taken-out":60,
+        "total":40
+    }
+
     def __init__(self, root, theme='light'):
         self.root = root
         self.current_theme = theme
@@ -188,11 +200,74 @@ class BookSearch(Window):
         amount = self.entry_amount.get()
 
         try:
-            assert int(page_count)>=0, "Page count must be a positive integer"
+            if page_count:
+                assert int(page_count)>=0, "Page count must be a positive integer"
+
             assert not (hardback and paperback), "Book can only either be paperback or hardback, not both"
-            assert int(amount)>=0, "Book amount must be a positive integer"
+
+            if amount:
+                assert int(amount)>=0, "Book amount must be a positive integer"
         except Exception as e:
             messagebox.showerror("Error", e)
+            return
+
+        count_needed = 0
+        if name:
+            count_needed += 1
+        if author:
+            count_needed += 1
+        if desc:
+            count_needed += 1
+        if page_count:
+            count_needed += 1
+        if bool(hardback):
+            count_needed += 1
+        if bool(paperback) == 1:
+            count_needed += 1
+        if amount:
+            count_needed += 1
+
+        matches = []
+        for book in self.books.values():
+            count_got = 0
+            if name in book["name"] and name:
+                count_got += 1
+            if author in book['author'] and author:
+                count_got += 1
+            if desc in book['brief'] and desc:
+                count_got += 1
+            if page_count and int(page_count) == book['pages']:
+                count_got += 1
+            if (bool(hardback) and book['hardback']) and hardback:
+                count_got += 1
+            if (bool(paperback) and book['paperback']) and paperback:
+                count_got += 1
+            if amount and int(amount) == book['total']:
+                count_got
+            
+            if count_got == count_needed:
+                matches.append(book)
+
+        result_win = tk.Toplevel(self.root)
+        tree = ttk.Treeview(result_win, show='tree')
+
+        book_dict = list(self.books.values())[0]
+
+        tree['columns'] = tuple(book_dict.keys())
+        tree.column('#0', width=0, stretch=tk.NO)
+
+        for key in book_dict.keys():
+            tree.column(key, width=self.tree_widths[key])
+            tree.heading(key, text=str(key), anchor=tk.CENTER)
+
+        tree.insert('', 'end', text='', values=tuple(book_dict.keys()))
+        for match in matches:
+            values = []
+            for val in match.values():
+                values.append(val)
+            tree.insert('', 'end', text='', values=values)
+        
+        tree.pack()
 
 class BookAdd(Window):
 
