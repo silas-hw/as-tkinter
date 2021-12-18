@@ -8,5 +8,3 @@ To do:
   - return the amount that are taken-out
   - return the total amount of those books available
   - return a a list of the books that match the search terms provided
-
-- move constants and theme values to config file
