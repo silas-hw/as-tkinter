@@ -82,7 +82,7 @@ class Window(tk.Frame):
         if name == 'Label':
             widget.config(bg=self.themes[theme]['bg'], fg=self.themes[theme]['fg'])
         elif name == 'Checkbutton': #checkbuttons will always be with ttk
-            widget.config(background=self.themes[theme]['bg'], activebackground=self.themes[theme]['bg'], fg=self.themes[theme]['fg'], activeforeground=self.themes[theme]['fg'], selectcolor='#91d5f2')
+            widget.config(relief='flat', background=self.themes[theme]['bg'], activebackground=self.themes[theme]['bg'], fg=self.themes[theme]['checkbutton-fg'], activeforeground=self.themes[theme]['checkbutton-fg'], selectcolor=self.themes[theme]['checkbutton-bg'])
         elif name == 'Combobox':
             widget.config(style=f"{theme}.TCombobox")
         elif name == "Button":
