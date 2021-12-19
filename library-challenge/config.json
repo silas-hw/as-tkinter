@@ -5,14 +5,18 @@
             "fg":"#bebaf5",
             "butt-bg":"#6b6b6b",
             "butt-fg":"#ffffff",
-            "butt-hl":"#878787"
+            "butt-hl":"#878787",
+            "checkbutton-fg":"#ffffff",
+            "checkbutton-bg":"#030303"
         },
         "light":{
             "bg":"#ffffff",
             "fg":"#262626",
             "butt-bg":"#d9d9d9",
             "butt-fg":"#262626",
-            "butt-hl":"#b0b0b0"
+            "butt-hl":"#b0b0b0",
+            "checkbutton-fg":"#1c1c1c",
+            "checkbutton-bg":"#ffffff"
 
         }
     },
