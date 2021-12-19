@@ -358,6 +358,7 @@ class BookAdd(Window):
         book["hardback"] = bool(self.hardback_val.get())
         book["paperback"] = bool(self.paperback_val.get())
         book["in-stock"] = int(self.entry_amount.get())
+        book["taken-out"] = 0
         book["total"] = int(self.entry_amount.get())
 
         temp_books[self.entry_name.get()] = book
