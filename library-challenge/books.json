@@ -84,7 +84,7 @@
         "hardback": true,
         "paperback": false,
         "in-stock": 5,
-        "taken-out": -11,
+        "taken-out": 11,
         "total": 10
     },
     "book9": {
@@ -117,6 +117,7 @@
         "hardback": false,
         "paperback": true,
         "in-stock": 10,
+        "taken-out":0,
         "total": 10
     },
     "book12": {
@@ -127,6 +128,7 @@
         "hardback": true,
         "paperback": false,
         "in-stock": 5,
+        "taken-out":0,
         "total": 5
     }
 }
