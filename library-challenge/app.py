@@ -494,10 +494,55 @@ class MainApp(Window):
     def mainloop(self):
         self.root.mainloop()
 
+class Login(Window):
+
+    def __init__(self, root):
+        
+        self.root = root
+
+        self.label_username = tk.Label(self.root, text="Username")
+        self.label_username.grid(row=1, column=0, sticky=tk.NW)
+
+        self.entry_username = ttk.Entry(self.root)
+        self.entry_username.grid(row=1, column=1, sticky=tk.NW)
+
+        self.label_password = tk.Label(self.root, text="Password")
+        self.label_password.grid(row=2, column=0, sticky=tk.NW)
+
+        self.entry_password = ttk.Entry(self.root)
+        self.entry_password.grid(row=2, column=1,  sticky=tk.NW)
+        
+        self.login_butt = ttk.Button(self.root, text="Login", command=self.login)
+        self.login_butt.grid(row=3, column=1, sticky=tk.NE)
+
+        super().__init__(self.root)
+
+        self.change_theme(self.current_theme)
+    
+    @property
+    def users(self):
+        with open(f"{self.FILE_PATH}\\users.json", "r") as f:
+            out = json.load(f)
+        return out
+
+    def login(self):
+        if self.entry_username.get() in self.users.keys():
+            if self.entry_password.get() == self.users[self.entry_username.get()]:
+                self.change_window(MainApp)
+                return
+        
+        if not 'label_error' in locals():
+            self.label_error = tk.Label(self.root, text="username & password do not match", fg="red", bg=self.themes[self.current_theme]['bg'])
+            self.label_error.grid(row=0, column=0, columnspan=2, sticky=tk.NW)
+
+    def mainloop(self):
+        self.root.mainloop()
+
+
 if __name__ == '__main__':
     root = tk.Tk()
     #root.geometry("500x500")
     root.resizable(False, False)
 
-    app = MainApp(root)
+    app = Login(root)
     app.mainloop()     
