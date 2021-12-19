@@ -184,16 +184,21 @@ class BookSearch(Window):
         #==============#
 
         self.search_butt = ttk.Button(self.root, text="Search", command=self.search)
-        self.search_butt.grid(row=3, column=0, pady=self.PADY, padx=self.PADX)
+        self.search_butt.grid(row=3, column=0, pady=self.PADY, padx=self.PADX, sticky=tk.NW)
+
+        self.case_sensitive_val = tk.IntVar()
+        self.entry_case_sensitive = tk.Checkbutton(self.root, text="case sensitive", variable=self.case_sensitive_val)
+        self.entry_case_sensitive.grid(row=3, column=1, pady=self.PADY, padx=self.PADX, sticky=tk.NW)
 
         super().__init__(self.root)
 
         self.change_theme(self.current_theme)
 
     def search(self):
-        name = self.entry_name.get()
-        author = self.entry_author.get()
-        desc = self.entry_desc.get()
+        case_sensitive = bool(self.case_sensitive_val.get())
+        name = self.entry_name.get() if case_sensitive else self.entry_name.get().lower()
+        author = self.entry_author.get() if case_sensitive else self.entry_author.get().lower()
+        desc = self.entry_desc.get() if case_sensitive else self.entry_desc.get().lower()
         page_count = self.entry_pages.get()
         hardback = self.hardback_val.get()
         paperback = self.paperback_val.get()
@@ -203,10 +208,11 @@ class BookSearch(Window):
             if page_count:
                 assert int(page_count)>=0, "Page count must be a positive integer"
 
-            assert not (hardback and paperback), "Book can only either be paperback or hardback, not both"
-
             if amount:
                 assert int(amount)>=0, "Book amount must be a positive integer"
+            
+            assert not (hardback and paperback), "Book can only either be paperback or hardback, not both"
+
         except Exception as e:
             messagebox.showerror("Error", e)
             return
@@ -229,12 +235,20 @@ class BookSearch(Window):
 
         matches = []
         for book in self.books.values():
+            
+            #make a temp variable so the values are checked without case but the displayed values aren't made lowercase
+            book_check = book.copy() #you have to use .copy() or dict(<dict>) in order to create a unique copy of a dictionary, otherwise it just creates a reference [see https://bit.ly/3skTjO0]
+            if not case_sensitive:
+                book_check["name"] = book_check["name"].lower()
+                book_check["author"] = book_check["author"].lower()
+                book_check["brief"] = book_check["brief"].lower()
+
             count_got = 0
-            if name in book["name"] and name:
+            if name in book_check["name"] and name:
                 count_got += 1
-            if author in book['author'] and author:
+            if author in book_check['author'] and author:
                 count_got += 1
-            if desc in book['brief'] and desc:
+            if desc in book_check['brief'] and desc:
                 count_got += 1
             if page_count and int(page_count) == book['pages']:
                 count_got += 1
