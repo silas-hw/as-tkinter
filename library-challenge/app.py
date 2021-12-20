@@ -530,8 +530,15 @@ class Login(Window):
         return out
 
     def login(self):
-        if self.entry_username.get() in self.users.keys():
-            if self.entry_password.get() == self.users[self.entry_username.get()]:
+        entered_username = self.entry_username.get()
+
+        #get the entered password and then hash it with sha256 and convert it to hex
+        entered_password_raw = self.entry_password.get() 
+        entered_password_encoded = entered_password_raw.encode() #encode entered password
+        entered_password_hash = hashlib.sha256(entered_password_encoded).hexdigest() #hash password with sha256 to compare it to stored passwords
+
+        if entered_username in self.users.keys():
+            if entered_password_hash == self.users[self.entry_username.get()]:
                 self.change_window(MainApp)
                 return
         
