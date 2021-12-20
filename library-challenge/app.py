@@ -3,7 +3,11 @@
     marking it because of this you can just ask me to explain some of it to you :)
 '''
 
-import json, os, inspect, ast
+import json 
+import os
+import inspect
+import ast
+import hashlib
 import tkinter as tk
 from tkinter import ttk #has better looking widgets
 from tkinter import messagebox
