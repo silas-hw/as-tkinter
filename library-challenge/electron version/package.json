@@ -4,7 +4,8 @@
   "description": "THIS HAS NOTHING TO DO WITH THE TKINTER SCHOOL CHALLENGE I WAS JUST BORED SO DECIDED TO MAKE A BASIC VERSION\r OF IT IN ELECTRON TO TRY AND GET USED TO JAVASCRIPT",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"electron ."
   },
   "author": "Silas Hayes-Williams",
   "license": "UNLICENSED"
