@@ -8,6 +8,8 @@ function makeWindow () {
         width: 400,
         height: 400,
         resizable: false,
+        transparent: true,
+        frame: false,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
