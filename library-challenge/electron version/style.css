@@ -30,7 +30,7 @@ div.center{
 
 div.menu { 
     height: 100%;
-    width: 18px;
+    width: 28px;
     top: 0;
     left: 0;
 
@@ -38,7 +38,7 @@ div.menu {
     overflow: hidden;
     border-radius: 5px 0px 0px 5px;
 
-    position: absolute;
+    position: fixed;
 
     background-color: rgb(228, 228, 228);
 
