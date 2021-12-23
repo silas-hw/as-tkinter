@@ -42,6 +42,8 @@ div.menu {
 
     background-color: rgb(228, 228, 228);
 
+    cursor: move;
+
     -webkit-app-region: drag
 }
 
