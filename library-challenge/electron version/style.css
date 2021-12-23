@@ -67,3 +67,7 @@ button.back {
     button.back:hover{
         background-color: rgb(248, 142, 142);
     }
+
+form{
+    margin-top: 10px;
+}
