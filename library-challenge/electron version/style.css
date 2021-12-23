@@ -1,10 +1,22 @@
 body{
     font-family:Arial;
+    margin: 0;
 }
 
 h1.center{
     margin: auto;
     text-align: center;
+}
+
+div.content {
+    border-radius: 5px;
+    height:400px;
+    width:400px;
+
+    background-color: white;
+
+    position: fixed;
+    z-index: -1;
 }
 
 /* used to have a div of centered elements*/
@@ -15,7 +27,24 @@ div.center{
     margin: auto;
 }
 
-div.form-elem{
+div.menu { 
+    height: 100%;
+    width: 18px;
+    top: 0;
+    left: 0;
+
+    perspective: 1px;
+    overflow: hidden;
+    border-radius: 5px 0px 0px 5px;
+
+    position: absolute;
+
+    background-color: rgb(228, 228, 228);
+
+    -webkit-app-region: drag
+}
+
+div.form-elem {
     display: grid;
     grid-template-columns: max-content max-content;
     grid-gap: 5px;
