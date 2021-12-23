@@ -5,6 +5,7 @@ body{
 
 h1.center{
     margin: auto;
+    margin-top: 20px;
     text-align: center;
 }
 
@@ -104,7 +105,7 @@ button.back {
     letter-spacing: 1px;
     padding: 5px 13px 5px;
     margin-top: -100px;
-    margin-left: 10px;
+    margin-left: 30px;
     margin-right: auto;
     outline: 0;
     border: 1px solid black;
@@ -125,6 +126,8 @@ button.close {
 
     border: 1px solid black;
     background-color: rgb(245, 97, 97);
+
+    cursor: pointer;
 
     transition: 0.2s;
 }
