@@ -17,11 +17,12 @@ class Window(tk.Frame):
         A superclass to create windows from. Includes a change window function to change the content of the root window 
     '''
 
-    #constants that are used in every window
+    # set constants
+
     FILE_PATH = os.path.dirname(os.path.realpath(__file__)) # gets the directory of the python file, so file operations can be done regardless of the current working directory
 
     #read config data
-    with open(f"{FILE_PATH}\\config.json", "r") as f:
+    with open(f"{FILE_PATH}\\config.json", "r") as f: #open file with a context manager (prevents you accidentally not closing the file)
         _config = json.load(f) #leading a variable with an underscore is used for private variables
         _constants = _config['constants']
 
@@ -31,9 +32,9 @@ class Window(tk.Frame):
 
         PADX = _constants['PADX']
         PADY = _constants['PADY']
-        PADY_ENTRY = _constants['PADY_ENTRY']
+        PADY_ENTRY = _constants['PADY_ENTRY'] #pady value used on entry boxes
 
-    current_theme = "light"
+    current_theme = "light" #uses to toggle between themes
 
     def __init__(self, root):
 
@@ -62,12 +63,19 @@ class Window(tk.Frame):
 
         #####################################################################################################################################
 
+    
     def change_window(self, window, theme='light'):
+        '''
+            Destroy all widgets currently being displayed in the root window and load the target class
+        '''
+
         for widget in self.root.winfo_children():
             widget.destroy()
 
         window(self.root, theme)
 
+    # property decorators allow you to create a function whose return value can be accessed like a class property
+    # this property method returns a dictionary of all the books in the library system
     @property
     def books(self):
         with open(f"{self.FILE_PATH}\\books.json", "r") as f:
@@ -76,6 +84,10 @@ class Window(tk.Frame):
         return out
 
     def save_to_file(self, books:dict) -> None:
+        '''
+            Save an updated version of the library dict to books.json
+        '''
+
         if not isinstance(books, dict):
             raise TypeError("Books argument should be a dictionary") #raises an exception if books arg doesnt have the type of a dict
 
@@ -100,8 +112,11 @@ class Window(tk.Frame):
                 #this uses recursion, allowing for frames to be configured regardless of how many frames its already a child of
                 self.tk_config(theme, child, child_name)
         
-
     def change_theme(self, theme:str):
+        '''
+            Toggle between dark and light theme
+        '''
+
         for widget in self.root.winfo_children():
             parent_module = inspect.getmodule(widget).__name__
 
@@ -117,6 +132,7 @@ class Window(tk.Frame):
 
 class BookSearch(Window):
 
+    # the widths of each column that is displayed when returning matching books
     tree_widths = {
         "name":70,
         "author":100,
@@ -200,9 +216,12 @@ class BookSearch(Window):
 
     def search(self):
         case_sensitive = bool(self.case_sensitive_val.get())
-        name = self.entry_name.get() if case_sensitive else self.entry_name.get().lower()
+
+        # convert these strings to lowercase unless the user specifies that the search should be case sensitive
+        name = self.entry_name.get() if case_sensitive else self.entry_name.get().lower() 
         author = self.entry_author.get() if case_sensitive else self.entry_author.get().lower()
         desc = self.entry_desc.get() if case_sensitive else self.entry_desc.get().lower()
+
         page_count = self.entry_pages.get()
         hardback = self.hardback_val.get()
         paperback = self.paperback_val.get()
@@ -232,7 +251,7 @@ class BookSearch(Window):
             count_needed += 1
         if bool(hardback):
             count_needed += 1
-        if bool(paperback) == 1:
+        if bool(paperback):
             count_needed += 1
         if amount:
             count_needed += 1
@@ -266,8 +285,8 @@ class BookSearch(Window):
             if count_got == count_needed:
                 matches.append(book)
 
-        result_win = tk.Toplevel(self.root)
-        tree = ttk.Treeview(result_win, show='tree')
+        result_win = tk.Toplevel(self.root) # create a new window to display the search results to
+        tree = ttk.Treeview(result_win, show='tree') # treeview allows you to create a display similar to a table (useful to displaying book info)
 
         book_dict = list(self.books.values())[0]
 
@@ -364,9 +383,9 @@ class BookAdd(Window):
             assert not(self.paperback_val.get() and self.hardback_val.get()), "books can only either be paperback or hardback, not both"
         except Exception as e:
             messagebox.showerror(title="Error", message=str(e))
-            return #dont do anything else
+            return #don't do anything else
 
-        temp_books = self.books # wouldnt work with reference lol, lucky python doesnt do that
+        temp_books = self.books # wouldn't work with reference lol, lucky python doesn't do that (i don't think)
 
         book = {}
         book["name"] = self.entry_name.get()
@@ -421,6 +440,10 @@ class BookManage(Window):
         self.change_theme(self.current_theme)
     
     def update_info(self):
+        '''
+            update the info being displayed to the user in the label widgets
+        '''
+
         book = self.combo_name.get()
         if book in self.books.keys():
             self.book_taken_out.config(text=f"Num. Taken Out: {self.books[book]['total'] - self.books[book]['in-stock']}")
@@ -429,6 +452,7 @@ class BookManage(Window):
             self.book_taken_out.config(text=f"Num. Taken Out:")
             self.book_in_stock.config(text=f"Num. In Stock:")
 
+    # bound as a callback for when the selected book changes, thus allowing for the display info to dynamically update
     def on_combo_change(self, index, value, op):
         self.update_info()
 
@@ -535,7 +559,7 @@ class Login(Window):
         #get the entered password and then hash it with sha256 and convert it to hex
         entered_password_raw = self.entry_password.get() 
         entered_password_encoded = entered_password_raw.encode() #encode entered password
-        entered_password_hash = hashlib.sha256(entered_password_encoded).hexdigest() #hash password with sha256 to compare it to stored passwords
+        entered_password_hash = hashlib.sha256(entered_password_encoded).hexdigest() #hash password with sha256 to compare it to stored (also hashed) passwords
 
         if entered_username in self.users.keys():
             if entered_password_hash == self.users[self.entry_username.get()]:
@@ -549,7 +573,7 @@ class Login(Window):
     def mainloop(self):
         self.root.mainloop()
 
-
+# only run this if the code is running as the main file (basically don't run if import is used on this file)
 if __name__ == '__main__':
     root = tk.Tk()
     root.resizable(False, False)
