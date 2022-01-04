@@ -552,7 +552,6 @@ class Login(Window):
 
 if __name__ == '__main__':
     root = tk.Tk()
-    #root.geometry("500x500")
     root.resizable(False, False)
 
     app = Login(root)
