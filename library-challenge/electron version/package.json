@@ -10,7 +10,7 @@
   "author": "Silas Hayes-Williams",
   "license": "UNLICENSED",
   "devDependencies": {
-    "electron": "^16.0.5"
+    "electron": "^16.0.6"
   },
   "dependencies": {
     "@electron/remote": "^2.0.1"
