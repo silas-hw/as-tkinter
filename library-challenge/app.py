@@ -539,6 +539,8 @@ class Login(Window):
 
         self.entry_password = ttk.Entry(self.root)
         self.entry_password.grid(row=2, column=1,  sticky=tk.NW)
+
+        self.entry_password.bind('<Return>', self.login)
         
         self.login_butt = ttk.Button(self.root, text="Login", command=self.login)
         self.login_butt.grid(row=3, column=1, sticky=tk.NE)
@@ -553,7 +555,7 @@ class Login(Window):
             out = json.load(f)
         return out
 
-    def login(self):
+    def login(self, *args):
         entered_username = self.entry_username.get()
 
         #get the entered password and then hash it with sha256 and convert it to hex
