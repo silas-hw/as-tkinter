@@ -19,6 +19,7 @@ function makeWindow () {
 
     require("@electron/remote/main").enable(win.webContents)
     win.loadFile('index.html')
+    win.webContents.openDevTools({ mode: "detach"})
 }
 
 app.whenReady().then(() => {
