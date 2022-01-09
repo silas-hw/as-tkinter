@@ -8,7 +8,7 @@
         "paperback": true,
         "in-stock": 4,
         "taken-out": 5,
-        "total": 10
+        "total": 9
     },
     "book2": {
         "name": "book2",
@@ -85,7 +85,7 @@
         "paperback": false,
         "in-stock": 5,
         "taken-out": 11,
-        "total": 10
+        "total": 16
     },
     "book9": {
         "name": "book9",
