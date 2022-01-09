@@ -89,10 +89,10 @@ class Window(tk.Frame):
         '''
 
         if not isinstance(books, dict):
-            raise TypeError("Books argument should be a dictionary") # raises an exception if books arg doesnt have the type of a dict
+            raise TypeError("Books argument should be a dictionary") # raises an exception if books arg doesn't have the type dict
 
         with open(f"{self.FILE_PATH}\\books.json", "w") as f:
-            json.dump(books, f, indent=4)
+            json.dump(books, f, indent=4) # indent=4 writes to the file with pretty-printing
 
     def tk_config(self, theme, widget, name) -> None:
         if name == 'Label':
