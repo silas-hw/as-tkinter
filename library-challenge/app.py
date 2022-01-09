@@ -9,7 +9,7 @@ import inspect
 import ast
 import hashlib
 import tkinter as tk
-from tkinter import ttk #has better looking widgets
+from tkinter import ttk # has better looking widgets
 from tkinter import messagebox
 
 class Window(tk.Frame):
@@ -22,23 +22,23 @@ class Window(tk.Frame):
     FILE_PATH = os.path.dirname(os.path.realpath(__file__)) # gets the directory of the python file, so file operations can be done regardless of the current working directory
 
     #read config data
-    with open(f"{FILE_PATH}\\config.json", "r") as f: #open file with a context manager (prevents you accidentally not closing the file)
-        _config = json.load(f) #leading a variable with an underscore is used for private variables
+    with open(f"{FILE_PATH}\\config.json", "r") as f: # open file with a context manager (prevents you accidentally not closing the file)
+        _config = json.load(f) # leading a variable with an underscore is used for private variables
         _constants = _config['constants']
 
         themes = _config['themes']
 
-        TITLE_FONT = ast.literal_eval(_constants['TITLE_FONT']) #literal eval prevents the security risk that comes with the eval method
+        TITLE_FONT = ast.literal_eval(_constants['TITLE_FONT']) # literal eval prevents the security risk that comes with the eval method
 
         PADX = _constants['PADX']
         PADY = _constants['PADY']
-        PADY_ENTRY = _constants['PADY_ENTRY'] #pady value used on entry boxes
+        PADY_ENTRY = _constants['PADY_ENTRY'] # pady value used on entry boxes
 
-    current_theme = "light" #uses to toggle between themes
+    current_theme = "light" # uses to toggle between themes
 
     def __init__(self, root):
 
-        #set up styles for light and dark theme ttk widgets
+        # set up styles for light and dark theme ttk widgets
         style = ttk.Style()
 
         style.theme_use('default')
@@ -89,7 +89,7 @@ class Window(tk.Frame):
         '''
 
         if not isinstance(books, dict):
-            raise TypeError("Books argument should be a dictionary") #raises an exception if books arg doesnt have the type of a dict
+            raise TypeError("Books argument should be a dictionary") # raises an exception if books arg doesnt have the type of a dict
 
         with open(f"{self.FILE_PATH}\\books.json", "w") as f:
             json.dump(books, f, indent=4)
@@ -97,7 +97,7 @@ class Window(tk.Frame):
     def tk_config(self, theme, widget, name):
         if name == 'Label':
             widget.config(bg=self.themes[theme]['bg'], fg=self.themes[theme]['fg'])
-        elif name == 'Checkbutton': #checkbuttons will always be with ttk
+        elif name == 'Checkbutton': # checkbuttons will always be with ttk
             widget.config(relief='flat', background=self.themes[theme]['bg'], activebackground=self.themes[theme]['bg'], fg=self.themes[theme]['checkbutton-fg'], activeforeground=self.themes[theme]['checkbutton-fg'], selectcolor=self.themes[theme]['checkbutton-bg'])
         elif name == 'Combobox':
             widget.config(style=f"{theme}.TCombobox")
@@ -109,7 +109,7 @@ class Window(tk.Frame):
             for child in widget.winfo_children():
                 child_name = child.__class__.__name__
 
-                #this uses recursion, allowing for frames to be configured regardless of how many frames its already a child of
+                # this uses recursion, allowing for frames to be configured regardless of how many frames its already a child of
                 self.tk_config(theme, child, child_name)
         
     def change_theme(self, theme:str):
@@ -259,8 +259,8 @@ class BookSearch(Window):
         matches = []
         for book in self.books.values():
             
-            #make a temp variable so the values are checked without case but the displayed values aren't made lowercase
-            book_check = book.copy() #you have to use .copy() or dict(<dict>) in order to create a unique copy of a dictionary, otherwise it just creates a reference [see https://bit.ly/3skTjO0]
+            # make a temp variable so the values are checked without case but the displayed values aren't made lowercase
+            book_check = book.copy() # you have to use .copy() or dict(<dict>) in order to create a unique copy of a dictionary, otherwise it just creates a reference [see https://bit.ly/3skTjO0]
             if not case_sensitive:
                 book_check["name"] = book_check["name"].lower()
                 book_check["author"] = book_check["author"].lower()
@@ -383,7 +383,7 @@ class BookAdd(Window):
             assert not(self.paperback_val.get() and self.hardback_val.get()), "books can only either be paperback or hardback, not both"
         except Exception as e:
             messagebox.showerror(title="Error", message=str(e))
-            return #don't do anything else
+            return # don't do anything else
 
         temp_books = self.books # wouldn't work with reference lol, lucky python doesn't do that (i don't think)
 
@@ -556,7 +556,7 @@ class Login(Window):
     def login(self):
         entered_username = self.entry_username.get()
 
-        #get the entered password and then hash it with sha256 and convert it to hex
+        # get the entered password and then hash it with sha256 and convert it to hex
         entered_password_raw = self.entry_password.get() 
         entered_password_encoded = entered_password_raw.encode() #encode entered password
         entered_password_hash = hashlib.sha256(entered_password_encoded).hexdigest() #hash password with sha256 to compare it to stored (also hashed) passwords
