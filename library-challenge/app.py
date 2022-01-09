@@ -36,7 +36,7 @@ class Window(tk.Frame):
 
     current_theme = "light" # uses to toggle between themes
 
-    def __init__(self, root):
+    def __init__(self, root) -> None:
 
         # set up styles for light and dark theme ttk widgets
         style = ttk.Style()
@@ -64,7 +64,7 @@ class Window(tk.Frame):
         #####################################################################################################################################
 
     
-    def change_window(self, window, theme='light'):
+    def change_window(self, window, theme='light') -> None:
         '''
             Destroy all widgets currently being displayed in the root window and load the target class
         '''
@@ -77,7 +77,7 @@ class Window(tk.Frame):
     # property decorators allow you to create a function whose return value can be accessed like a class property
     # this property method returns a dictionary of all the books in the library system
     @property
-    def books(self):
+    def books(self) -> dict:
         with open(f"{self.FILE_PATH}\\books.json", "r") as f:
             out = json.load(f)
 
@@ -94,7 +94,7 @@ class Window(tk.Frame):
         with open(f"{self.FILE_PATH}\\books.json", "w") as f:
             json.dump(books, f, indent=4)
 
-    def tk_config(self, theme, widget, name):
+    def tk_config(self, theme, widget, name) -> None:
         if name == 'Label':
             widget.config(bg=self.themes[theme]['bg'], fg=self.themes[theme]['fg'])
         elif name == 'Checkbutton': # checkbuttons will always be with ttk
@@ -112,7 +112,7 @@ class Window(tk.Frame):
                 # this uses recursion, allowing for frames to be configured regardless of how many frames its already a child of
                 self.tk_config(theme, child, child_name)
         
-    def change_theme(self, theme:str):
+    def change_theme(self, theme:str) -> None:
         '''
             Toggle between dark and light theme
         '''
@@ -145,7 +145,7 @@ class BookSearch(Window):
         "total":40
     }
 
-    def __init__(self, root, theme='light'):
+    def __init__(self, root, theme='light') -> None:
         self.root = root
         self.current_theme = theme
 
@@ -214,7 +214,7 @@ class BookSearch(Window):
 
         self.change_theme(self.current_theme)
 
-    def search(self):
+    def search(self) -> None:
         case_sensitive = bool(self.case_sensitive_val.get())
 
         # convert these strings to lowercase unless the user specifies that the search should be case sensitive
@@ -308,7 +308,7 @@ class BookSearch(Window):
 
 class BookAdd(Window):
 
-    def __init__(self, root, theme='light'):
+    def __init__(self, root, theme='light') -> None:
         self.root = root
         self.current_theme = theme
 
@@ -373,7 +373,7 @@ class BookAdd(Window):
 
         self.change_theme(self.current_theme)
 
-    def save_book(self):
+    def save_book(self) -> None:
     
         try:
             # validation checks
@@ -404,7 +404,7 @@ class BookAdd(Window):
 
 class BookManage(Window):
 
-    def __init__(self, root, theme='light'):
+    def __init__(self, root, theme='light') -> None:
         self.root = root
         self.current_theme = theme
 
@@ -439,7 +439,7 @@ class BookManage(Window):
 
         self.change_theme(self.current_theme)
     
-    def update_info(self):
+    def update_info(self) -> None:
         '''
             update the info being displayed to the user in the label widgets
         '''
@@ -453,10 +453,10 @@ class BookManage(Window):
             self.book_in_stock.config(text=f"Num. In Stock:")
 
     # bound as a callback for when the selected book changes, thus allowing for the display info to dynamically update
-    def on_combo_change(self, index, value, op):
+    def on_combo_change(self, index, value, op) -> None:
         self.update_info()
 
-    def take_out_book(self):
+    def take_out_book(self) -> None:
         book = self.combo_name.get()
         if self.books[book]['in-stock'] <= 0:
             messagebox.showerror("Error", "Not Enough Books In Stock")
@@ -468,7 +468,7 @@ class BookManage(Window):
 
         self.update_info()
 
-    def return_book(self):
+    def return_book(self) -> None:
         book = self.combo_name.get()
         if self.books[book]['in-stock'] == self.books[book]['total']:
             messagebox.showerror("Error", "All of these books are already in stock")
@@ -486,7 +486,7 @@ class MainApp(Window):
         The main body of the app, being what everything else is built on top of
     '''
 
-    def __init__(self, root, theme='light'):
+    def __init__(self, root, theme='light') -> None:
         self.root = root
         self.current_theme = theme
 
@@ -511,7 +511,7 @@ class MainApp(Window):
 
         self.change_theme(self.current_theme)
 
-    def theme_butt(self):
+    def theme_butt(self) -> None:
         if self.current_theme == 'light':
             self.current_theme = 'dark'
         else:
@@ -519,12 +519,12 @@ class MainApp(Window):
 
         self.change_theme(self.current_theme)
         
-    def mainloop(self):
+    def mainloop(self) -> None:
         self.root.mainloop()
 
 class Login(Window):
 
-    def __init__(self, root):
+    def __init__(self, root) -> None:
         
         self.root = root
 
@@ -548,12 +548,12 @@ class Login(Window):
         self.change_theme(self.current_theme)
     
     @property
-    def users(self):
+    def users(self) -> dict:
         with open(f"{self.FILE_PATH}\\users.json", "r") as f:
             out = json.load(f)
         return out
 
-    def login(self):
+    def login(self) -> None:
         entered_username = self.entry_username.get()
 
         # get the entered password and then hash it with sha256 and convert it to hex
@@ -572,7 +572,7 @@ class Login(Window):
             self.label_error = tk.Label(self.root, text="username & password do not match", fg="red", bg=self.themes[self.current_theme]['bg'])
             self.label_error.grid(row=0, column=0, columnspan=2, sticky=tk.NW)
 
-    def mainloop(self):
+    def mainloop(self) -> None:
         self.root.mainloop()
 
 # only run this if the code is running as the main file (basically don't run if this file is imported by another python programme)
