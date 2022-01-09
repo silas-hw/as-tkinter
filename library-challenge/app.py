@@ -561,22 +561,24 @@ class Login(Window):
         entered_password_encoded = entered_password_raw.encode() #encode entered password
         entered_password_hash = hashlib.sha256(entered_password_encoded).hexdigest() #hash password with sha256 to compare it to stored (also hashed) passwords
 
+        # if the use enters a matching password and username pair then load the main app content
         if entered_username in self.users.keys():
             if entered_password_hash == self.users[self.entry_username.get()]:
                 self.change_window(MainApp)
                 return
         
-        if not 'label_error' in locals():
+        # if an incorrect password and username pair hasn't been entered then inform the user
+        if not 'label_error' in locals(): # if the label 'label_error' hasn't already been created then create it
             self.label_error = tk.Label(self.root, text="username & password do not match", fg="red", bg=self.themes[self.current_theme]['bg'])
             self.label_error.grid(row=0, column=0, columnspan=2, sticky=tk.NW)
 
     def mainloop(self):
         self.root.mainloop()
 
-# only run this if the code is running as the main file (basically don't run if import is used on this file)
+# only run this if the code is running as the main file (basically don't run if this file is imported by another python programme)
 if __name__ == '__main__':
     root = tk.Tk()
-    root.resizable(False, False)
+    root.resizable(False, False) # stop the user from being able to resize the window
 
-    app = Login(root)
-    app.mainloop()     
+    app = Login(root) # instance the login class
+    app.mainloop() # start the tkinter app
