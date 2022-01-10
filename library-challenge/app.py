@@ -36,6 +36,8 @@ class Window(tk.Frame):
 
     current_theme = "light" # uses to toggle between themes
 
+    # -> is just documentation for the expected return type
+    # __init__ is called when you instance the class
     def __init__(self, root) -> None:
 
         # set up styles for light and dark theme ttk widgets
