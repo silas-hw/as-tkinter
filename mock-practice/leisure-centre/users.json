@@ -1,0 +1,10 @@
+{
+    "0001":{
+        "access":1,
+        "password":"password"
+    },
+    "0002":{
+        "access":0,
+        "password":"letmein"
+    }
+}
