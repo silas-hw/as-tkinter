@@ -1,0 +1,5 @@
+log time taken to complete practice code and predicted marks to be awarded for code
+
+goal time: 40 minutes
+time taken: 25m 53s
+marks: ? (done to prove that I can get a fully functioning version working in time, needs more commenting)
