@@ -36,6 +36,8 @@ class Window(tk.Frame):
 
     current_theme = "light" # uses to toggle between themes
 
+    # -> is just documentation for the expected return type
+    # __init__ is called when you instance the class
     def __init__(self, root) -> None:
 
         # set up styles for light and dark theme ttk widgets
@@ -378,8 +380,17 @@ class BookAdd(Window):
         try:
             # validation checks
             assert self.entry_name.get() not in self.books.keys(), "book already exists in library"
+            
+            assert not(self.entry_name.get().isspace()), "book name can't be blank"
+            assert not(self.entry_author.get().isspace()), "book author can't be blank"
+            assert not(self.entry_desc.get().isspace()), "book brief can't be blank"
+    
             assert int(self.entry_pages.get()), "page count music be a positive integer"
+            assert int(self.entry_pages.get())>0, "page count must be greater than 0"
+
             assert int(self.entry_amount.get()), "amount of books must be a positive interger"
+            assert int(self.entry_aount.get())>0, "amount of books must be greater than 0"
+            
             assert not(self.paperback_val.get() and self.hardback_val.get()), "books can only either be paperback or hardback, not both"
         except Exception as e:
             messagebox.showerror(title="Error", message=str(e))
