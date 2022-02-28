@@ -478,6 +478,7 @@ class BookManage(Window):
         self.save_to_file(temp)
 
         self.update_info()
+        print("hi")
 
     def return_book(self) -> None:
         book = self.combo_name.get()
