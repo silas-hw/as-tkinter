@@ -9,14 +9,16 @@ class MainApp(tk.Frame):
 
         self.expression = "" #used to store the mathemetical expression the user enters
 
-        self.display = ttk.Label(self.root, font=('Arial', 12))
+        self.display = ttk.Label(self.root, font=('Arial', 12)) # label to display calculated values
         self.display.grid(row=0, column=0)
+
+        # use frames to organise buttons in a regular pattern
 
         self.button_frame = tk.Frame(self.root)
 
         self.numbers_frame = tk.Frame(self.button_frame)
         
-        self.num_one = ttk.Button(self.numbers_frame, text="1", command=lambda: self.addToExpression("1"))
+        self.num_one = ttk.Button(self.numbers_frame, text="1", command=lambda:self.addToExpression("1"))
         self.num_two = ttk.Button(self.numbers_frame, text="2", command=lambda:self.addToExpression("2"))
         self.num_three = ttk.Button(self.numbers_frame, text="3", command=lambda:self.addToExpression("3"))
         self.num_four = ttk.Button(self.numbers_frame, text="4", command=lambda:self.addToExpression("4"))
@@ -64,29 +66,35 @@ class MainApp(tk.Frame):
 
         self.button_frame.grid(row=1, column=0, sticky=tk.NW)
 
+    #make property method to open answer file and return number stored
     @property
     def ans(self):
         with open('answer.txt') as f:
             out = float(f.read())
         return out
 
+    #add passed value to stored expression
     def addToExpression(self, value: str):
         self.expression += str(value)
         self.display.config(text=self.expression)
     
+    #clear the expression stored
     def cls(self):
         self.expression = ""
         self.display.config(text="")
 
+    #calculate an answer to the expression stored
     def calc(self):
         try:
-            answer = eval(self.expression)
-            self.display.config(text=answer)
-            self.expression = str(answer)
+            answer = eval(self.expression) #evaluate the expression using pythons inbuilt maths capabilities
+            self.display.config(text=answer) #display the answer
+            self.expression = str(answer) #make the stored expression the calculated answer
 
+            #store the answer to a text file
             with open('answer.txt', 'w') as f:
                 f.write(str(answer))
-                
+
+        #if the expression is not mathemetically correct inform the user     
         except Exception as e:
             print(e)
             self.display.config(text="SYNTAX ERROR")
