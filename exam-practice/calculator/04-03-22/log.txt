@@ -1,0 +1,5 @@
+log time taken to complete practice code and predicted marks to be awarded for code
+
+goal time: 40 minutes
+time taken: 20m 56s
+marks: 
