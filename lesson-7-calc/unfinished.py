@@ -32,7 +32,6 @@ class Calc():
 
     def getResult(self, resultbox):
 
-
         try:
             fileObject=open("calcResult.txt","r")
         
